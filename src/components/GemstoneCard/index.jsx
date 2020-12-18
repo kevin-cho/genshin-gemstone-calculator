@@ -14,10 +14,18 @@ const getImageUrl = stars => {
       return gemstone4;
     case 5:
       return gemstone5;
+    default:
   }
 };
 
-const GemstoneCard = ({ stars = 2, quantity = 0 }) => {
+const handleFocus = e => e.target.select();
+
+const GemstoneCard = ({
+  stars = 2,
+  quantity = 0,
+  editable = false,
+  onChange
+}) => {
   const imageUrl = getImageUrl(stars);
 
   return (
@@ -26,7 +34,10 @@ const GemstoneCard = ({ stars = 2, quantity = 0 }) => {
         src={imageUrl}
         alt={`gemstone-${stars}-stars`}
       />
-      <input className={styles.inputQuantity} />
+      {editable
+        ? <input className={styles.quantity} value={quantity} onFocus={handleFocus} onChange={onChange} />
+        : <span className={styles.quantity}>{quantity}</span>
+      }
     </div>
   );
 };
