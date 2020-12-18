@@ -1,23 +1,13 @@
-import logo from './logo.svg';
+import GemstoneCard from './components/GemstoneCard';
 import './App.css';
 
-function App() {
+const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <GemstoneCard stars={5} />
+      <GemstoneCard stars={4} />
+      <GemstoneCard stars={3} />
+      <GemstoneCard stars={2} />
     </div>
   );
 }
