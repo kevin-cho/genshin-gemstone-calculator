@@ -2,22 +2,14 @@ import { useState } from 'react';
 import GemstoneCard from './components/GemstoneCard';
 import styles from './App.module.css';
 
+// Represents the display order
 const rarities = [5, 4, 3, 2];
 const conversionRate = 3;
+const defaultState = rarities.reduce((acc, curr) => ({ ...acc, [curr]: 0 }), {});
 
 const App = () => {
-  const [quantities, setQuantities] = useState({
-    5: 2,
-    4: 7,
-    3: 16,
-    2: 22
-  });
-  const [results, setResults] = useState({
-    5: 0,
-    4: 0,
-    3: 0,
-    2: 0
-  });
+  const [quantities, setQuantities] = useState(defaultState);
+  const [results, setResults] = useState(defaultState);
   const [selectedRarity, setSelectedRarity] = useState('');
 
   const handleQuantityChange = stars => e => {
@@ -59,7 +51,7 @@ const App = () => {
 
       <div className={styles.controls}>
         <select onChange={handleConvert} value={selectedRarity}>
-          <option value="">Stars</option>
+          <option value="">convert to</option>
           {rarities.map(stars => <option key={stars} value={stars}>{stars}</option>)}
         </select>
       </div>
