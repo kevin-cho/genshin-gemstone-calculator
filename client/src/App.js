@@ -12,10 +12,19 @@ const App = () => {
   const [results, setResults] = useState(defaultState);
   const [selectedRarity, setSelectedRarity] = useState('');
   const inputRefs = useRef(rarities.map(createRef));
-  console.log(inputRefs)
 
   const handleQuantityChange = stars => e => {
     setQuantities({ ...quantities, [stars]: Number(e.target.value) });
+    setSelectedRarity('');
+  };
+
+  const handleQuantityIncrement = stars => {
+    setQuantities({ ...quantities, [stars]: quantities[stars] + 1 });
+    setSelectedRarity('');
+  };
+
+  const handleQuantityDecrement = stars => {
+    setQuantities({ ...quantities, [stars]: Math.max(0, quantities[stars] - 1) });
     setSelectedRarity('');
   };
 
@@ -46,6 +55,12 @@ const App = () => {
           stars={stars}
           onClick={() => inputRefs.current[index].current.focus()}
         >
+          <span
+            className={`material-icons ${styles.controls}`}
+            onClick={() => handleQuantityDecrement(stars)}
+          >
+            remove_circle
+          </span>
           <input
             ref={inputRefs.current[index]}
             className={styles.quantity}
@@ -53,6 +68,12 @@ const App = () => {
             onFocus={e => e.target.select()}
             onChange={handleQuantityChange(stars)}
           />
+           <span
+            className={`material-icons ${styles.controls}`}
+            onClick={() => handleQuantityIncrement(stars)}
+          >
+            add_circle
+          </span>
         </GemstoneCard>
       ))}
 
@@ -72,6 +93,12 @@ const App = () => {
           <span className={selectedRarity === stars ? styles.selected : ''}>{results[stars]}</span>
         </GemstoneCard>
       ))}
+
+      <nav className={styles.footer}>
+        <a href="https://github.com/kevin-cho/genshin-gemstone-calculator" target="_blank">
+          <i className="fa fa-github-square" />
+        </a>
+      </nav>
     </div>
   );
 }

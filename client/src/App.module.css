@@ -1,7 +1,5 @@
 .root {
   text-align: center;
-  background-color: #1f1e1e;
-  height: 100vh;
   padding: 100px 20px 20px 20px;
   box-sizing: border-box;
 }
@@ -11,6 +9,11 @@
 }
 .arrow > span {
   font-size: 65px;
+}
+.controls {
+  padding: 0 6px;
+  color: #333;
+  font-size: 22px;
 }
 
 input.quantity {
@@ -24,4 +27,14 @@ input.quantity {
 
 .selected {
   font-weight: bold;
+}
+
+nav.footer {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+}
+nav.footer i {
+  color: #fff;
+  font-size: 2rem;
 }

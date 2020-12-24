@@ -7,10 +7,12 @@
 
 .content {
   position: absolute;
-  bottom: 6px;
+  bottom: 4px;
   left: 50%;
   transform: translate(-50%, 0);
-  width: 25px;
+  width: fit-content;
+  display: flex;
+  align-items: center;
 }
 
 img {
