@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, createRef } from 'react';
 import GemstoneCard from './components/GemstoneCard';
 import styles from './App.module.css';
 
@@ -11,14 +11,15 @@ const App = () => {
   const [quantities, setQuantities] = useState(defaultState);
   const [results, setResults] = useState(defaultState);
   const [selectedRarity, setSelectedRarity] = useState('');
+  const inputRefs = useRef(rarities.map(createRef));
+  console.log(inputRefs)
 
   const handleQuantityChange = stars => e => {
     setQuantities({ ...quantities, [stars]: Number(e.target.value) });
     setSelectedRarity('');
   };
 
-  const handleConvert = e => {
-    const selectedStars = Number(e.target.value);
+  const handleConvert = selectedStars => {
     const raritiesAscending = [...rarities].sort((a, b) => a - b);
     let tempResult = { ...quantities };
     setSelectedRarity(selectedStars);
@@ -39,21 +40,26 @@ const App = () => {
 
   return (
     <div className={styles.root}>
-      {rarities.map(stars => (
+      {rarities.map((stars, index) => (
         <GemstoneCard
           key={stars}
           stars={stars}
-          editable
-          quantity={quantities[stars]}
-          onChange={handleQuantityChange(stars)}
-        />
+          onClick={() => inputRefs.current[index].current.focus()}
+        >
+          <input
+            ref={inputRefs.current[index]}
+            className={styles.quantity}
+            value={quantities[stars]}
+            onFocus={e => e.target.select()}
+            onChange={handleQuantityChange(stars)}
+          />
+        </GemstoneCard>
       ))}
 
-      <div className={styles.controls}>
-        <select onChange={handleConvert} value={selectedRarity}>
-          <option value="">convert to</option>
-          {rarities.map(stars => <option key={stars} value={stars}>{stars}</option>)}
-        </select>
+      <div className={styles.arrow}>
+        <span className="material-icons">
+          arrow_downward
+        </span>
       </div>
 
       {rarities.map(stars => (
@@ -61,7 +67,10 @@ const App = () => {
           key={stars}
           stars={stars}
           quantity={results[stars]}
-        />
+          onClick={() => handleConvert(stars)}
+        >
+          <span className={selectedRarity === stars ? styles.selected : ''}>{results[stars]}</span>
+        </GemstoneCard>
       ))}
     </div>
   );
