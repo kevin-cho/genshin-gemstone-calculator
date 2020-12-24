@@ -4,6 +4,12 @@
   box-sizing: border-box;
 }
 
+@media screen and (max-width: 480px) {
+  .root {
+    padding-top: 14px;
+  }
+}
+
 .arrow {
   color: #fff;
 }
@@ -23,6 +29,11 @@ input.quantity {
   outline: none;
   width: 100%;
   text-align: center;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
 }
 
 .selected {

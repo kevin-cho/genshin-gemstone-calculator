@@ -63,6 +63,7 @@ const App = () => {
           </span>
           <input
             ref={inputRefs.current[index]}
+            type="number"
             className={styles.quantity}
             value={quantities[stars]}
             onFocus={e => e.target.select()}
