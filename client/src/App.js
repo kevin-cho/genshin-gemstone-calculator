@@ -1,5 +1,6 @@
 import { useState, useRef, createRef } from 'react';
 import GemstoneCard from './components/GemstoneCard';
+import { Fade } from './components/Transitions';
 import styles from './App.module.css';
 
 // Represents the display order
@@ -49,51 +50,53 @@ const App = () => {
 
   return (
     <div className={styles.root}>
-      {rarities.map((stars, index) => (
-        <GemstoneCard
-          key={stars}
-          stars={stars}
-          onClick={() => inputRefs.current[index].current.focus()}
-        >
-          <span
-            className={`material-icons ${styles.controls}`}
-            onClick={() => handleQuantityDecrement(stars)}
+      <Fade appear>
+        {rarities.map((stars, index) => (
+          <GemstoneCard
+            key={stars}
+            stars={stars}
+            onClick={() => inputRefs.current[index].current.focus()}
           >
-            remove_circle
+            <span
+              className={`material-icons ${styles.controls}`}
+              onClick={() => handleQuantityDecrement(stars)}
+            >
+              remove_circle
+            </span>
+            <input
+              ref={inputRefs.current[index]}
+              type="number"
+              className={styles.quantity}
+              value={quantities[stars]}
+              onFocus={e => e.target.select()}
+              onChange={handleQuantityChange(stars)}
+            />
+            <span
+              className={`material-icons ${styles.controls}`}
+              onClick={() => handleQuantityIncrement(stars)}
+            >
+              add_circle
+            </span>
+          </GemstoneCard>
+        ))}
+
+        <div className={styles.arrow}>
+          <span className="material-icons">
+            arrow_downward
           </span>
-          <input
-            ref={inputRefs.current[index]}
-            type="number"
-            className={styles.quantity}
-            value={quantities[stars]}
-            onFocus={e => e.target.select()}
-            onChange={handleQuantityChange(stars)}
-          />
-           <span
-            className={`material-icons ${styles.controls}`}
-            onClick={() => handleQuantityIncrement(stars)}
+        </div>
+
+        {rarities.map(stars => (
+          <GemstoneCard
+            key={stars}
+            stars={stars}
+            quantity={results[stars]}
+            onClick={() => handleConvert(stars)}
           >
-            add_circle
-          </span>
-        </GemstoneCard>
-      ))}
-
-      <div className={styles.arrow}>
-        <span className="material-icons">
-          arrow_downward
-        </span>
-      </div>
-
-      {rarities.map(stars => (
-        <GemstoneCard
-          key={stars}
-          stars={stars}
-          quantity={results[stars]}
-          onClick={() => handleConvert(stars)}
-        >
-          <span className={selectedRarity === stars ? styles.selected : ''}>{results[stars]}</span>
-        </GemstoneCard>
-      ))}
+            <span className={selectedRarity === stars ? styles.selected : ''}>{results[stars]}</span>
+          </GemstoneCard>
+        ))}
+      </Fade>
 
       <nav className={styles.footer}>
         <a href="https://github.com/kevin-cho/genshin-gemstone-calculator" target="_blank">
